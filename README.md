@@ -1,4 +1,4 @@
-# PacketfenceMACauth
+# Packetfence MAC Authentication
 Python program to authenticate MAC addresses on their following VLANs on PacketFence from a csv file
 
 .csv sample file :
