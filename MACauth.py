@@ -17,16 +17,7 @@ def main():
     readFile()
     getCategID(ip, token)
     register(ip, token)
-    '''
-    au = "{\"items\":[{\"category_id\":\"1\",\"max_nodes_per_pid\":\"0\",\"name\":\"default\",\"notes\":\"Pla\"},{\"category_id\":\"2\",\"max_nodes_per_pid\":\"0\",\"name\":\"guest\",\"notes\":\"Guests\"},{\"category_id\":\"3\",\"max_nodes_per_pid\":\"0\",\"name\":\"gaming\",\"notes\":\"Gaming devices\"},{\"category_id\":\"4\",\"max_nodes_per_pid\":\"0\",\"name\":\"voice\",\"notes\":\"VoIP devices\"},{\"category_id\":\"5\",\"max_nodes_per_pid\":\"0\",\"name\":\"REJECT\",\"notes\":\"Reject role (Used to block access)\"},{\"category_id\":\"7\",\"max_nodes_per_pid\":\"0\",\"name\":\"professor\",\"notes\":\"professor\"}],\"prevCursor\":0,\"status\":200}"
-    idss  = json.loads(au)
-    x = 0
 
-    while x < len(idss["items"]):
-        ids.append([idss["items"][x]["category_id"], idss["items"][x]["name"]])
-        x += 1
-    print(ids)
-    '''
     
 def Convert(a):
     it = iter(a)
