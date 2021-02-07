@@ -36,18 +36,25 @@ if allowed == 0:
     exit()
 allowed = 0
 
-file = input("\nPlease enter CSV filename with MAC addresses and Roles: ")
-
-print("\n")
-
-with open(file) as csvDataFile:
-    csvReader = csv.reader(csvDataFile)
-    for row in csvReader:
-        macs.append(row[0])
-        roles.append(row[1])
+while count < 3:
+    file = input("\nPlease enter CSV filename with MAC addresses and VLANs: ")
+    try:
+        with open(file) as csvDataFile:
+            csvReader = csv.reader(csvDataFile)
+            for row in csvReader:
+                macs.append(row[0])
+                roles.append(row[1])
+    except FileNotFoundError:
+        print("\n\tWrong file or file path")
+        count += 1
+        if count == 3:
+            print("\nMax file attempts, exiting ...")
+            exit()
+    else:
+        break
 
 token = r1.text[10:-2]
-
+print("\n")
 url2 = 'https://' + ip + ':9999/api/v1/nodes'
 url3 = 'https://' + ip + ':9999/api/v1/node/'
 headers2 = {'accept': 'application/json', 'Authorization': token}
@@ -85,4 +92,3 @@ print("\n\n\tFailed to register:")
 print("\n\t%s" %failed)
 
 print("\n")
-#print(payload)
