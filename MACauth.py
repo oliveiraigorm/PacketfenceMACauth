@@ -131,7 +131,7 @@ def register(ip, token):
                     print("Internal Server error, MAC \"%s\" with VLAN \"%s\" failed to register"% (m,r))
                     failed.append([m,r])
         else:
-            print("Role %s does not exist, create it on PacketFence" % r)
+            print("Role \"%s\" does not exist, create it on PacketFence" % r)
             failed.append([m,r])
 
     print("\n\n\n\n\tNumber of successfully registered MACs:  %d " % (success))
