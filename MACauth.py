@@ -3,6 +3,7 @@ import csv
 import getpass 
 import urllib3
 import json
+import mysql.connector
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
@@ -12,11 +13,56 @@ ids = []
 categoryid = {}
 
 def main():
-    ip = input("\nPlease enter PacketFence's IP address: ")
+    ip = input("\nPlease enter PacketFence's IP address or hostname: ")
     token = login(ip)
-    readFile()
-    getCategID(ip, token)
-    register(ip, token)
+    
+    count =0 
+    while count < 3:
+        option = input("\nPlease enter \"1\" to read list from a CSV File or \"2\" to read from Database: ")
+        if(option == "1"):
+            readFile()
+            getCategID(ip, token)
+            register(ip, token)
+            break;
+        if(option == "2"):
+            logSQL()
+            getCategID(ip, token)
+            register(ip, token)
+            break;
+        else:
+            print("Invalid option")
+            count += 1   
+    if(count == 3):
+        print("\nMax attempts, exiting ...")
+        exit()
+
+def logSQL():
+
+    ip = input("\nPlease enter SQL Server's IP address or hostname [localhost]: ")
+    if(ip == ""):
+        ip = "localhost"
+    database = input("\nPlease enter SQL database's name: ")
+    user = input("\nUsername: ")
+    password = getpass.getpass() 
+    
+    mydb = mysql.connector.connect(
+    host=ip,
+    user=user,
+    password=password,
+    database=database
+    )
+    query = input("\nPlease enter SQL query to select MACs and VLANs [SELECT * FROM macs]:")
+    if(query == ""):
+        query = "SELECT * FROM macs"
+    mycursor = mydb.cursor()
+
+    mycursor.execute(query)
+
+    myresult = mycursor.fetchall()
+
+    for x in myresult:
+      macs.append(x[0])
+      roles.append(x[1])
 
     
 def Convert(a):
@@ -122,7 +168,7 @@ def register(ip, token):
                     print("Internal Server error, MAC \"%s\" with VLAN \"%s\" failed to register"% (m,r))
                     failed.append([m,r])
         else:
-            print("Role \"%s\" does not exist, create it on PacketFence" % r)
+            print("Role %s does not exist, create it on PacketFence" % r)
             failed.append([m,r])
 
     print("\n\n\n\n\tNumber of successfully registered MACs:  %d " % (success))
